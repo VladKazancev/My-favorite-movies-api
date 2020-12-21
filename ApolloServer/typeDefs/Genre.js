@@ -10,7 +10,7 @@ const typeDefs = gql`
     checkFavoriteGenre(userId: ID!, genreId: ID!): Boolean!
   }
   extend type Mutation {
-    setFavoriteGenres(userId: ID!, genreId: ID!, deleteMode: Boolean): ID!
+    setFavoriteGenres(userId: ID!, genreId: ID!): Answer!
   }
 `;
 

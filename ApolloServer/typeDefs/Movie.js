@@ -12,10 +12,6 @@ const typeDefs = gql`
     adult: Boolean
     overview: String
   }
-  type FavoriteMovie {
-    movieId: ID!
-    isViewed: Boolean!
-  }
   input QueryKeys {
     selectedGenres: [Int]!
     releaseYear: Int!
@@ -27,15 +23,7 @@ const typeDefs = gql`
       language: String!
       page: Int!
       queryKeys: QueryKeys!
-    ): [Movie]!
-    getFavoriteMovies(userId: ID!): [FavoriteMovie]!
-  }
-  extend type Mutation {
-    setFavoriteMovies(
-      userId: ID!
-      movieId: ID!
-      deleteMovie: Boolean
-    ): FavoriteMovie!
+    ): [Movie!]!
   }
 `;
 

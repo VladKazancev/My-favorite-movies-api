@@ -7,12 +7,6 @@ const resolvers = {
       return getRepository(User).findOne({ email: email });
     },
   },
-  Mutation: {
-    addUsers: (parent, { users }) => {
-      getRepository(User).insert(users);
-      return users;
-    },
-  },
 };
 
 module.exports = resolvers;

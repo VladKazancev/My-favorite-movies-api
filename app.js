@@ -7,7 +7,8 @@ const logger = require("morgan");
 const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./ApolloServer/typeDefs");
 const resolvers = require("./ApolloServer/resolvers");
-const context = require("./ApolloServer/context");
+const { getResponse, generateAnswer } = require("./ApolloServer/utils");
+const addUsers = require("./utils");
 
 require("reflect-metadata");
 require("dotenv").config();
@@ -15,12 +16,15 @@ const { createConnection } = require("typeorm");
 
 const app = express();
 
-createConnection();
+createConnection().then(() => addUsers());
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: context,
+  context: () => ({
+    getResponse: getResponse,
+    generateAnswer: generateAnswer,
+  }),
 });
 server.applyMiddleware({ app });
 
