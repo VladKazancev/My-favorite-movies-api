@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
-export class FavorieGenre {
+export class FavoriteGenre {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: false })
-  user_id: number;
+  userId: number;
 
   @Column({ nullable: false })
-  genre_id: number;
+  genreId: number;
 }

@@ -4,13 +4,29 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
+const { ApolloServer } = require("apollo-server-express");
+const typeDefs = require("./ApolloServer/typeDefs");
+const resolvers = require("./ApolloServer/resolvers");
+const { getResponse, generateAnswer } = require("./ApolloServer/utils");
+const addUsers = require("./utils");
+
 require("reflect-metadata");
 require("dotenv").config();
 const { createConnection } = require("typeorm");
 
 const app = express();
 
-createConnection();
+createConnection().then(() => addUsers());
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: () => ({
+    getResponse: getResponse,
+    generateAnswer: generateAnswer,
+  }),
+});
+server.applyMiddleware({ app });
 
 // view engine setup
 app.use(logger("dev"));

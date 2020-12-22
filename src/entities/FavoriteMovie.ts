@@ -1,15 +1,15 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
-export class FavorieMovie {
+export class FavoriteMovie {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: false })
-  user_id: number;
+  userId: number;
 
   @Column({ nullable: false })
-  movie_id: number;
+  movieId: number;
 
   @Column({ nullable: false, default: false })
   isViewed: boolean;
