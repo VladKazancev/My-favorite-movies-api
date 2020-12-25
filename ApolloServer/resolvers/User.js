@@ -3,8 +3,9 @@ const { User } = require("../../build/entities/User");
 
 const resolvers = {
   Query: {
-    getUser: (parent, { email }) => {
-      return getRepository(User).findOne({ email: email });
+    user: (parent, { email, userId }) => {
+      const params = email ? { email: email } : { userId: userId };
+      return getRepository(User).findOne(params);
     },
   },
 };

@@ -3,7 +3,7 @@ const { filteredMoviesUrlPart } = require("../utils");
 
 const resolvers = {
   Query: {
-    getMovieById: async (parent, { id, language }, { getResponse }) => {
+    movie: async (parent, { id, language }, { getResponse }) => {
       const urlPart = movieUrlPart(language, id);
       const movieInfo = await getResponse(urlPart);
       if (movieInfo)
@@ -12,7 +12,7 @@ const resolvers = {
         );
       return movieInfo;
     },
-    getFilteredMovies: async (
+    filteredMovies: async (
       parent,
       { language, page, queryKeys },
       { getResponse }

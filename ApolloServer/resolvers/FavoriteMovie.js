@@ -3,11 +3,11 @@ const { FavoriteMovie } = require("../../build/entities/FavoriteMovie");
 
 const resolvers = {
   Query: {
-    getFavoriteMovies: (parent, { userId }) => {
-      return getRepository(FavoriteMovie).find({
-        userId: userId,
-      });
-    },
+    favoriteMovies: (parent, { userId }) =>
+      getRepository(FavoriteMovie).find({
+        where: { userId: userId },
+        order: { id: "ASC" },
+      }),
   },
   Mutation: {
     setFavoriteMovies: async (

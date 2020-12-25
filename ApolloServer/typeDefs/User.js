@@ -7,7 +7,7 @@ const typeDefs = gql`
     password: String!
   }
   extend type Query {
-    getUser(email: String!): User
+    user(email: String, userId: ID): User
   }
 `;
 

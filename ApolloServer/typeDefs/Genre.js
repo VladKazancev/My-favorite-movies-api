@@ -6,8 +6,8 @@ const typeDefs = gql`
     name: String
   }
   extend type Query {
-    getGenres(language: String!): [Genre!]!
-    checkFavoriteGenre(userId: ID!, genreId: ID!): Boolean!
+    genres(language: String!): [Genre!]!
+    favoriteGenres(userId: ID!): [Int]!
   }
   extend type Mutation {
     setFavoriteGenres(userId: ID!, genreId: ID!): Answer!

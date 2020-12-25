@@ -4,17 +4,16 @@ const { genresUrlPart } = require("../utils");
 
 const resolvers = {
   Query: {
-    getGenres: async (parent, { language }, { getResponse }) => {
+    genres: async (parent, { language }, { getResponse }) => {
       const urlPart = genresUrlPart(language);
       const genres = await getResponse(urlPart);
       return genres ? genres.genres : [];
     },
-    checkFavoriteGenre: async (parent, { userId, genreId }) => {
-      const genre = await getRepository(FavoriteGenre).findOne({
-        genreId: genreId,
+    favoriteGenres: async (parent, { userId }) => {
+      const favoriteGenres = await getRepository(FavoriteGenre).find({
         userId: userId,
       });
-      return Boolean(genre);
+      return favoriteGenres.map((current) => current.genreId);
     },
   },
   Mutation: {

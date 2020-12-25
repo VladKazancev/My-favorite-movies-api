@@ -6,7 +6,7 @@ const typeDefs = gql`
     isViewed: Boolean!
   }
   type Query {
-    getFavoriteMovies(userId: ID!): [FavoriteMovie]!
+    favoriteMovies(userId: ID!): [FavoriteMovie]!
   }
   type Mutation {
     setFavoriteMovies(userId: ID!, movieId: ID!): Answer!

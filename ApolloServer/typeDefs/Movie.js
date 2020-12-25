@@ -5,6 +5,7 @@ const typeDefs = gql`
     id: ID!
     title: String!
     genres: [Genre]
+    genre_ids: [Int!]
     poster_path: String
     production_companies: [String]
     release_date: String
@@ -13,13 +14,13 @@ const typeDefs = gql`
     overview: String
   }
   input QueryKeys {
-    selectedGenres: [Int]!
+    selectedGenres: [String]!
     releaseYear: Int!
     rating: Float!
   }
   extend type Query {
-    getMovieById(id: ID!, language: String!): Movie
-    getFilteredMovies(
+    movie(id: ID!, language: String!): Movie
+    filteredMovies(
       language: String!
       page: Int!
       queryKeys: QueryKeys!
