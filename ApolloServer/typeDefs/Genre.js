@@ -7,10 +7,10 @@ const typeDefs = gql`
   }
   extend type Query {
     genres(language: String!): [Genre!]!
-    favoriteGenres(userId: ID!): [Int]!
+    favoriteGenres: [Int]!
   }
   extend type Mutation {
-    setFavoriteGenres(userId: ID!, genreId: ID!): Answer!
+    setFavoriteGenres(genreId: ID!): Answer!
   }
 `;
 

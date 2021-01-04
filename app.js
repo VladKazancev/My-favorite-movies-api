@@ -1,7 +1,7 @@
 const createError = require("http-errors");
 const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
+const jwt = require("express-jwt");
+const cors = require("cors");
 const logger = require("morgan");
 
 const { ApolloServer } = require("apollo-server-express");
@@ -21,19 +21,23 @@ createConnection().then(() => addUsers());
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: () => ({
+  context: ({ req }) => ({
     getResponse: getResponse,
     generateAnswer: generateAnswer,
+    user: req.user,
   }),
 });
-server.applyMiddleware({ app });
 
-// view engine setup
+const auth = jwt({
+  secret: process.env.JWT_SECRET_KEY,
+  algorithms: ["HS256"],
+  credentialsRequired: false,
+});
+
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use("/graphql", cors(), auth);
+
+server.applyMiddleware({ app });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -46,9 +50,7 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+  res.status(err.status || 500).end();
 });
 
 module.exports = app;

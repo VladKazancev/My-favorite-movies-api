@@ -1,22 +1,26 @@
 const { getRepository } = require("typeorm");
+const { ApolloError } = require("apollo-server-express");
 const { FavoriteMovie } = require("../../build/entities/FavoriteMovie");
 
 const resolvers = {
   Query: {
-    favoriteMovies: (parent, { userId }) =>
-      getRepository(FavoriteMovie).find({
-        where: { userId: userId },
+    favoriteMovies: (parent, args, { user }) => {
+      if (!user) throw new ApolloError("Authorization failed.", "UNAUTORIZED");
+      return getRepository(FavoriteMovie).find({
+        where: { userId: user.id },
         order: { id: "ASC" },
-      }),
+      });
+    },
   },
   Mutation: {
     setFavoriteMovies: async (
       parent,
-      { userId, movieId },
-      { generateAnswer }
+      { movieId },
+      { generateAnswer, user }
     ) => {
+      if (!user) throw new ApolloError("Authorization failed.", "UNAUTORIZED");
       const favoriteMovieRepository = getRepository(FavoriteMovie);
-      const params = { userId: userId, movieId: movieId };
+      const params = { userId: user.id, movieId };
       if (await favoriteMovieRepository.findOne(params))
         favoriteMovieRepository.delete(params);
       else favoriteMovieRepository.save(params);
@@ -24,13 +28,14 @@ const resolvers = {
     },
     setIsFavoriteMovieViewed: async (
       parent,
-      { userId, movieId },
-      { generateAnswer }
+      { movieId },
+      { generateAnswer, user }
     ) => {
+      if (!user) throw new ApolloError("Authorization failed.", "UNAUTORIZED");
       const favoriteMovieRepository = getRepository(FavoriteMovie);
       const favoriteMovie = await favoriteMovieRepository.findOne({
-        userId: userId,
-        movieId: movieId,
+        userId: user.id,
+        movieId,
       });
       if (favoriteMovie) {
         favoriteMovie.isViewed = !favoriteMovie.isViewed;
