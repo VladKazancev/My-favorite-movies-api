@@ -6,11 +6,11 @@ const typeDefs = gql`
     isViewed: Boolean!
   }
   type Query {
-    getFavoriteMovies(userId: ID!): [FavoriteMovie]!
+    favoriteMovies: [FavoriteMovie]!
   }
   type Mutation {
-    setFavoriteMovies(userId: ID!, movieId: ID!): Answer!
-    setIsFavoriteMovieViewed(userId: ID!, movieId: ID!): Answer!
+    setFavoriteMovies(movieId: ID!): Answer!
+    setIsFavoriteMovieViewed(movieId: ID!): Answer!
   }
 `;
 

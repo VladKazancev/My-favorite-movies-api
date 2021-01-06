@@ -20,7 +20,7 @@ exports.movieUrlPart = (language, id) => {
 exports.filteredMoviesUrlPart = (language, page, queryKeys) => {
   const formatedGenres = queryKeys.selectedGenres.join(",");
   return [
-    "discover/movie/",
+    "discover/movie",
     requestKeysPart(language),
     "&include_adult=true&sort_by=popularity.desc&page=",
     page,
